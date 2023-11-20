@@ -93,7 +93,9 @@ public class EditRestaurantActivity extends AppCompatActivity {
                     // Update the restaurant data in the database
                     db.updateRestaurant(currentRestaurant);
 
-                    // Close the activity and return to the previous screen
+                    // Close the activity and start the restaurant list activity
+                    Intent intent = new Intent(EditRestaurantActivity.this, ViewRestaurantsActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             }
