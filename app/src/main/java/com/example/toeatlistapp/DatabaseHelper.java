@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_NAME + " TEXT,"
                 + KEY_TELEPHONE + " TEXT,"
                 + KEY_DISTRICT + " TEXT,"
@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addRestaurant(Restaurant restaurant) {
+    long addRestaurant(Restaurant restaurant) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -53,12 +53,63 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_DESCRIPTION, restaurant.getDescription());
         values.put(KEY_FOOD_TYPE, restaurant.getFoodType());
 
-        db.insert(TABLE_NAME, null, values);
+        long id = db.insert(TABLE_NAME, null, values);
         db.close();
+
+        return id;
     }
 
-    public List<String> getAllRestaurants() {
-        List<String> restaurantList = new ArrayList<>();
+    public Restaurant getRestaurant(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{KEY_ID, KEY_NAME, KEY_TELEPHONE, KEY_DISTRICT, KEY_DESCRIPTION, KEY_FOOD_TYPE},
+                KEY_ID + "=?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Restaurant restaurant = new Restaurant();
+            int columnIndex;
+
+            columnIndex = cursor.getColumnIndex(KEY_ID);
+            if (columnIndex != -1) {
+                restaurant.setId(cursor.getInt(columnIndex));
+            }
+
+            columnIndex = cursor.getColumnIndex(KEY_NAME);
+            if (columnIndex != -1) {
+                restaurant.setName(cursor.getString(columnIndex));
+            }
+
+            columnIndex = cursor.getColumnIndex(KEY_TELEPHONE);
+            if (columnIndex != -1) {
+                restaurant.setTelephone(cursor.getString(columnIndex));
+            }
+
+            columnIndex = cursor.getColumnIndex(KEY_DISTRICT);
+            if (columnIndex != -1) {
+                restaurant.setDistrict(cursor.getString(columnIndex));
+            }
+
+            columnIndex = cursor.getColumnIndex(KEY_DESCRIPTION);
+            if (columnIndex != -1) {
+                restaurant.setDescription(cursor.getString(columnIndex));
+            }
+
+            columnIndex = cursor.getColumnIndex(KEY_FOOD_TYPE);
+            if (columnIndex != -1) {
+                restaurant.setFoodType(cursor.getString(columnIndex));
+            }
+
+            cursor.close();
+            return restaurant;
+        }
+
+        return null;
+    }
+
+    public List<Restaurant> getAllRestaurants() {
+        List<Restaurant> restaurantList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -66,7 +117,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                restaurantList.add(cursor.getString(1));
+                Restaurant restaurant = new Restaurant();
+                int columnIndex;
+
+                columnIndex = cursor.getColumnIndex(KEY_ID);
+                if (columnIndex != -1) {
+                    restaurant.setId(cursor.getInt(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_NAME);
+                if (columnIndex != -1) {
+                    restaurant.setName(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_TELEPHONE);
+                if (columnIndex != -1) {
+                    restaurant.setTelephone(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_DISTRICT);
+                if (columnIndex != -1) {
+                    restaurant.setDistrict(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_DESCRIPTION);
+                if (columnIndex != -1) {
+                    restaurant.setDescription(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_FOOD_TYPE);
+                if (columnIndex != -1) {
+                    restaurant.setFoodType(cursor.getString(columnIndex));
+                }
+
+                restaurantList.add(restaurant);
             } while (cursor.moveToNext());
         }
 

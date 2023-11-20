@@ -1,11 +1,24 @@
 package com.example.toeatlistapp;
 
 public class Restaurant {
+    private int id;
     private String name;
     private String telephone;
     private String district;
     private String description;
     private String foodType;
+
+    public Restaurant() {
+    }
+
+    public Restaurant(int id, String name, String telephone, String district, String description, String foodType) {
+        this.id = id;
+        this.name = name;
+        this.telephone = telephone;
+        this.district = district;
+        this.description = description;
+        this.foodType = foodType;
+    }
 
     public Restaurant(String name, String telephone, String district, String description, String foodType) {
         this.name = name;
@@ -13,6 +26,14 @@ public class Restaurant {
         this.district = district;
         this.description = description;
         this.foodType = foodType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
