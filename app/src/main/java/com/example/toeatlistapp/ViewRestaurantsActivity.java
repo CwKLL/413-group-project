@@ -19,8 +19,6 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     DatabaseHelper db;
 
-    
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,20 +28,15 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
 
         restaurantsListView = findViewById(R.id.restaurant_list);
 
-        restaurants = db.getAllRestaurants();
-
-        List<String> restaurantNames = new ArrayList<>();
-        for (Restaurant r : restaurants) {
-            restaurantNames.add(r.getName());
-        }
-
         adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                restaurantNames
+                new ArrayList<>()
         );
 
         restaurantsListView.setAdapter(adapter);
+
+        refreshRestaurantList();
 
         restaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,8 +47,24 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-    
-    
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshRestaurantList();
+    }
+
+    private void refreshRestaurantList() {
+        restaurants = db.getAllRestaurants();
+
+        List<String> restaurantNames = new ArrayList<>();
+        for (Restaurant r : restaurants) {
+            restaurantNames.add(r.getName());
+        }
+
+        adapter.clear(); // Clear the old data
+        adapter.addAll(restaurantNames); // Add the new data
+        adapter.notifyDataSetChanged(); // Notify the adapter about the new data
+    }
 }

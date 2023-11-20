@@ -2,13 +2,14 @@ package com.example.toeatlistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RestaurantDetailsActivity extends AppCompatActivity {
-
     private TextView nameTextView;
     private TextView telephoneTextView;
     private TextView districtTextView;
@@ -26,6 +27,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         descriptionTextView = findViewById(R.id.description);
         foodTypeTextView = findViewById(R.id.foodType);
 
+        // Get the passed restaurantId
         int restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
         Log.d("RestaurantDetails", "Restaurant ID is: " + restaurantId);
 
@@ -41,5 +43,15 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                 foodTypeTextView.setText(restaurant.getFoodType());
             }
         }
+
+        Button editButton = findViewById(R.id.editButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RestaurantDetailsActivity.this, EditRestaurantActivity.class);
+                intent.putExtra("restaurant_id", restaurantId);
+                startActivity(intent);
+            }
+        });
     }
 }

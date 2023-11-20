@@ -108,6 +108,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public int updateRestaurant(Restaurant restaurant) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, restaurant.getName());
+        values.put(KEY_TELEPHONE, restaurant.getTelephone());
+        values.put(KEY_DISTRICT, restaurant.getDistrict());
+        values.put(KEY_DESCRIPTION, restaurant.getDescription());
+        values.put(KEY_FOOD_TYPE, restaurant.getFoodType());
+
+        return db.update(TABLE_NAME, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(restaurant.getId())});
+    }
+
+    public void deleteRestaurant(Restaurant restaurant) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, KEY_ID + " = ?",
+                new String[]{String.valueOf(restaurant.getId())});
+        db.close();
+    }
+
     public List<Restaurant> getAllRestaurants() {
         List<Restaurant> restaurantList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
