@@ -1,9 +1,10 @@
 package com.example.toeatlistapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,10 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_restaurants);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new DatabaseHelper(this);
 
@@ -50,6 +55,16 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         refreshRestaurantList();
@@ -63,8 +78,8 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
             restaurantNames.add(r.getName());
         }
 
-        adapter.clear(); // Clear the old data
-        adapter.addAll(restaurantNames); // Add the new data
-        adapter.notifyDataSetChanged(); // Notify the adapter about the new data
+        adapter.clear();
+        adapter.addAll(restaurantNames);
+        adapter.notifyDataSetChanged();
     }
 }
