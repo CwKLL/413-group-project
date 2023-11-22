@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,8 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
 
     ListView restaurantsListView;
     List<Restaurant> restaurants;
-    ArrayAdapter<String> adapter;
+    RestaurantAdapter adapter;
+    SearchView searchView;
     DatabaseHelper db;
 
     @Override
@@ -32,10 +33,10 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         restaurantsListView = findViewById(R.id.restaurant_list);
+        searchView = findViewById(R.id.searchView);
 
-        adapter = new ArrayAdapter<>(
+        adapter = new RestaurantAdapter(
                 this,
-                android.R.layout.simple_list_item_1,
                 new ArrayList<>()
         );
 
@@ -52,6 +53,19 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -72,14 +86,7 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
 
     private void refreshRestaurantList() {
         restaurants = db.getAllRestaurants();
-
-        List<String> restaurantNames = new ArrayList<>();
-        for (Restaurant r : restaurants) {
-            restaurantNames.add(r.getName());
-        }
-
-        adapter.clear();
-        adapter.addAll(restaurantNames);
+        adapter.setData(restaurants);
         adapter.notifyDataSetChanged();
     }
 }

@@ -50,6 +50,8 @@ public class AddRestaurantActivity extends AppCompatActivity {
 
                 if (name.isEmpty() || telephone.isEmpty() || district.isEmpty() || description.isEmpty() || foodType.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                } else if (telephone.length() != 8) {
+                    Toast.makeText(getApplicationContext(), "Telephone number must be exactly 8 digits", Toast.LENGTH_SHORT).show();
                 } else {
                     Restaurant restaurant = new Restaurant(name, telephone, district, description, foodType);
                     DatabaseHelper db = new DatabaseHelper(AddRestaurantActivity.this);

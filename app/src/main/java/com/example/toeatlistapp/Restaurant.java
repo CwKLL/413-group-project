@@ -75,4 +75,10 @@ public class Restaurant {
     public void setFoodType(String foodType) {
         this.foodType = foodType;
     }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.telephone + " " + this.district +
+                " " + this.description + " " + this.foodType;
+    }
 }

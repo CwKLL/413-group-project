@@ -80,6 +80,8 @@ public class EditRestaurantActivity extends AppCompatActivity {
 
                 if (name.isEmpty() || telephone.isEmpty() || district.isEmpty() || description.isEmpty() || foodType.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                } else if (telephone.length() != 8) {
+                    Toast.makeText(getApplicationContext(), "Telephone number must be exactly 8 digits", Toast.LENGTH_SHORT).show();
                 } else {
                     currentRestaurant.setName(name);
                     currentRestaurant.setTelephone(telephone);
