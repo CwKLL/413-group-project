@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "restaurants_db";
     private static final String TABLE_NAME = "restaurants";
     private static final String KEY_ID = "id";
@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_DISTRICT = "district";
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_FOOD_TYPE = "food_type";
+    private static final String KEY_FAVOURITE = "favourite";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,7 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + KEY_TELEPHONE + " TEXT,"
                 + KEY_DISTRICT + " TEXT,"
                 + KEY_DESCRIPTION + " TEXT,"
-                + KEY_FOOD_TYPE + " TEXT" + ")";
+                + KEY_FOOD_TYPE + " TEXT,"
+                + KEY_FAVOURITE + " INTEGER DEFAULT 0" + ")";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -52,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_DISTRICT, restaurant.getDistrict());
         values.put(KEY_DESCRIPTION, restaurant.getDescription());
         values.put(KEY_FOOD_TYPE, restaurant.getFoodType());
+        values.put(KEY_FAVOURITE, 0);
 
         long id = db.insert(TABLE_NAME, null, values);
         db.close();
@@ -101,6 +104,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 restaurant.setFoodType(cursor.getString(columnIndex));
             }
 
+            columnIndex = cursor.getColumnIndex(KEY_FAVOURITE);
+            if (columnIndex != -1) {
+                restaurant.setFavourite(cursor.getInt(columnIndex) != 0);
+            }
+
             cursor.close();
             return restaurant;
         }
@@ -117,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_DISTRICT, restaurant.getDistrict());
         values.put(KEY_DESCRIPTION, restaurant.getDescription());
         values.put(KEY_FOOD_TYPE, restaurant.getFoodType());
+        values.put(KEY_FAVOURITE, restaurant.isFavourite() ? 1 : 0);
 
         return db.update(TABLE_NAME, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(restaurant.getId())});
@@ -127,6 +136,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, KEY_ID + " = ?",
                 new String[]{String.valueOf(restaurant.getId())});
         db.close();
+    }
+
+    public void setFavourite(long id, boolean favourite) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_FAVOURITE, favourite ? 1 : 0);
+        db.update(TABLE_NAME, values, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    public List<Restaurant> getFavouriteRestaurants() {
+        List<Restaurant> restaurantList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_FAVOURITE + " = 1";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Restaurant restaurant = new Restaurant();
+                int columnIndex;
+
+                columnIndex = cursor.getColumnIndex(KEY_ID);
+                if (columnIndex != -1) {
+                    restaurant.setId(cursor.getInt(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_NAME);
+                if (columnIndex != -1) {
+                    restaurant.setName(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_TELEPHONE);
+                if (columnIndex != -1) {
+                    restaurant.setTelephone(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_DISTRICT);
+                if (columnIndex != -1) {
+                    restaurant.setDistrict(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_DESCRIPTION);
+                if (columnIndex != -1) {
+                    restaurant.setDescription(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_FOOD_TYPE);
+                if (columnIndex != -1) {
+                    restaurant.setFoodType(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_FAVOURITE);
+                if (columnIndex != -1) {
+                    restaurant.setFavourite(cursor.getInt(columnIndex) != 0);
+                }
+
+                restaurantList.add(restaurant);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return restaurantList;
     }
 
     public List<Restaurant> getAllRestaurants() {
@@ -169,6 +242,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 columnIndex = cursor.getColumnIndex(KEY_FOOD_TYPE);
                 if (columnIndex != -1) {
                     restaurant.setFoodType(cursor.getString(columnIndex));
+                }
+
+                columnIndex = cursor.getColumnIndex(KEY_FAVOURITE);
+                if (columnIndex != -1) {
+                    restaurant.setFavourite(cursor.getInt(columnIndex) != 0);
                 }
 
                 restaurantList.add(restaurant);

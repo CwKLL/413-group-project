@@ -82,7 +82,7 @@ public class Restaurant {
     }
 
     public void setFavourite(boolean favourite) {
-        isFavourite = favourite;
+        this.isFavourite = favourite;
     }
 
     @Override

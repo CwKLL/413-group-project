@@ -10,10 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import com.example.toeatlistapp.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +26,14 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater layoutInflater;
     private ItemFilter itemFilter = new ItemFilter();
     private Context context;
+    private DatabaseHelper database;
+    private PopupMenu currentPopup;
 
     public RestaurantAdapter(Context context, List<Restaurant> data) {
         this.originalData = data;
         this.filteredData = data;
         this.context = context;
+        this.database = new DatabaseHelper(context);
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -54,7 +59,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.list_item_restaurant, null);
@@ -71,7 +76,14 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Restaurant restaurant = filteredData.get(position);
+        final Restaurant restaurant = filteredData.get(position);
+
+        if (restaurant.isFavourite()) {
+            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.light_gray));
+        } else {
+            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        }
+
         holder.name.setText(restaurant.getName());
         holder.description.setText(restaurant.getDescription());
         holder.telephone.setText(restaurant.getTelephone());
@@ -81,30 +93,59 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
         holder.optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(context, v);
-                popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+                currentPopup = new PopupMenu(context, v);
+                currentPopup.getMenuInflater().inflate(R.menu.popup_menu, currentPopup.getMenu());
 
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                updatePopupMenu(restaurant, currentPopup);
+
+                MenuItem removeFromFavouriteItem = currentPopup.getMenu().findItem(R.id.remove_from_favourite);
+                if (restaurant.isFavourite()) {
+                    removeFromFavouriteItem.setVisible(true);
+                } else {
+                    removeFromFavouriteItem.setVisible(false);
+                }
+
+                currentPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
                         if (id == R.id.edit) {
                             Intent intent = new Intent(context, EditRestaurantActivity.class);
-                            intent.putExtra("RESTAURANT_ID", (int) restaurant.getId());
+                            intent.putExtra("RESTAURANT_ID", restaurant.getId());
                             context.startActivity(intent);
                             return true;
                         } else if (id == R.id.add_to_favourite) {
-                            // Handle add to favourite here
+                            database.setFavourite(restaurant.getId(), true);
+                            setData(database.getAllRestaurants());
+                            updatePopupMenu(restaurant, currentPopup); // add this line
+                            return true;
+                        } else if (id == R.id.remove_from_favourite) {
+                            database.setFavourite(restaurant.getId(), false);
+                            setData(database.getAllRestaurants());
+                            updatePopupMenu(restaurant, currentPopup); // add this line
                             return true;
                         }
                         return false;
                     }
                 });
 
-                popup.show();
+                currentPopup.show();
             }
         });
 
         return convertView;
+    }
+
+    private void updatePopupMenu(Restaurant restaurant, PopupMenu currentPopup) {
+        MenuItem removeFromFavouriteItem = currentPopup.getMenu().findItem(R.id.remove_from_favourite);
+        MenuItem addToFavouriteItem = currentPopup.getMenu().findItem(R.id.add_to_favourite);
+
+        if (restaurant.isFavourite()) {
+            removeFromFavouriteItem.setVisible(true);
+            addToFavouriteItem.setVisible(false);
+        } else {
+            removeFromFavouriteItem.setVisible(false);
+            addToFavouriteItem.setVisible(true);
+        }
     }
 
     public Filter getFilter() {
@@ -117,7 +158,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
         TextView telephone;
         TextView district;
         TextView foodType;
-        Button optionsButton; // add this line
+        Button optionsButton;
     }
 
     private class ItemFilter extends Filter {

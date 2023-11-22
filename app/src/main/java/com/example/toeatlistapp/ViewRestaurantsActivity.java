@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.PopupMenu;
-
+import android.widget.Button; // Added
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,8 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
     RestaurantAdapter adapter;
     SearchView searchView;
     DatabaseHelper db;
+    Button favButton; // Added
+    boolean showingFavorites = false; // Added
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
 
         restaurantsListView = findViewById(R.id.restaurant_list);
         searchView = findViewById(R.id.searchView);
+        favButton = findViewById(R.id.favButton);
 
         adapter = new RestaurantAdapter(
                 this,
@@ -54,6 +56,15 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Updated
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleShowFavorites();
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -66,7 +77,6 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
     @Override
@@ -89,5 +99,20 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
         restaurants = db.getAllRestaurants();
         adapter.setData(restaurants);
         adapter.notifyDataSetChanged();
+    }
+
+    // Added
+    private void toggleShowFavorites() {
+        if(showingFavorites) {
+            refreshRestaurantList();
+            favButton.setText(R.string.show_favorites);
+            showingFavorites = false; // Reset the flag when showing all restaurants
+        } else {
+            restaurants = db.getFavouriteRestaurants();
+            adapter.setData(restaurants);
+            adapter.notifyDataSetChanged();
+            favButton.setText(R.string.show_all);
+            showingFavorites = true;
+        }
     }
 }

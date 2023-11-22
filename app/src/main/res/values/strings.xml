@@ -2,4 +2,6 @@
     <string name="app_name">ToEatListApp</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="save">Save</string>
+    <string name="show_favorites">Show Favorites</string>
+    <string name="show_all">Show All</string>
 </resources>
