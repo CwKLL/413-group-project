@@ -43,7 +43,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         deleteButton = findViewById(R.id.deleteButton);
 
-        int restaurantId = getIntent().getIntExtra("restaurant_id", -1);
+        int restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
 
         if (restaurantId != -1) {
             currentRestaurant = db.getRestaurant(restaurantId);

@@ -7,6 +7,7 @@ public class Restaurant {
     private String district;
     private String description;
     private String foodType;
+    private boolean isFavourite;
 
     public Restaurant() {
     }
@@ -74,6 +75,14 @@ public class Restaurant {
 
     public void setFoodType(String foodType) {
         this.foodType = foodType;
+    }
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
     }
 
     @Override

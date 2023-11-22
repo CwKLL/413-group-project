@@ -1,13 +1,19 @@
 package com.example.toeatlistapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import com.example.toeatlistapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +23,12 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
     private List<Restaurant> filteredData = null;
     private LayoutInflater layoutInflater;
     private ItemFilter itemFilter = new ItemFilter();
+    private Context context;
 
     public RestaurantAdapter(Context context, List<Restaurant> data) {
         this.originalData = data;
         this.filteredData = data;
+        this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -56,6 +64,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
             holder.telephone = convertView.findViewById(R.id.restaurantTelephone);
             holder.district = convertView.findViewById(R.id.restaurantDistrict);
             holder.foodType = convertView.findViewById(R.id.restaurantFoodType);
+            holder.optionsButton = convertView.findViewById(R.id.optionsButton);
 
             convertView.setTag(holder);
         } else {
@@ -68,6 +77,32 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
         holder.telephone.setText(restaurant.getTelephone());
         holder.district.setText(restaurant.getDistrict());
         holder.foodType.setText(restaurant.getFoodType());
+
+        holder.optionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context, v);
+                popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        if (id == R.id.edit) {
+                            Intent intent = new Intent(context, EditRestaurantActivity.class);
+                            intent.putExtra("RESTAURANT_ID", (int) restaurant.getId());
+                            context.startActivity(intent);
+                            return true;
+                        } else if (id == R.id.add_to_favourite) {
+                            // Handle add to favourite here
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                popup.show();
+            }
+        });
 
         return convertView;
     }
@@ -82,6 +117,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
         TextView telephone;
         TextView district;
         TextView foodType;
+        Button optionsButton; // add this line
     }
 
     private class ItemFilter extends Filter {
