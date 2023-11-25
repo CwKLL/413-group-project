@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.List;
 import java.util.Random;
@@ -27,27 +28,22 @@ public class RandomRestaurantActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        restaurantsListView = findViewById(R.id.restaurant_list);
+//        restaurantsListView = findViewById(R.id.restaurant_list);
 
         random = new Random();
-
-        randomRestaurantButton = findViewById(R.id.random_restaurants_button);
-        randomRestaurantButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickRandomRestaurant();
-            }
-        });
+        restaurants = db.getAllRestaurants();
+        pickRandomRestaurant();
     }
 
     private void pickRandomRestaurant() {
+        TextView resultTextView = findViewById(R.id.random_restaurant_text);
         if (restaurants != null && !restaurants.isEmpty()) {
-//            List<Restaurant> shuffledResult = new ArrayList<>(restaurantsListView);
-            Collections.shuffle(restaurants);
-            Restaurant randomRestaurant = restaurants.get(0);
-            Toast.makeText(this, "Randomly picked restaurant: " + randomRestaurant.getName(), Toast.LENGTH_SHORT).show();
+            List<Restaurant> shuffledResult = restaurants;
+            Collections.shuffle(shuffledResult);
+            Restaurant randomRestaurant = shuffledResult.get(0);
+            resultTextView.setText("Randomly picked restaurant: \n \n" + randomRestaurant.getName());
         } else {
-            Toast.makeText(this, "No restaurants available", Toast.LENGTH_SHORT).show();
+            resultTextView.setText("No restaurants available");
         }
     }
 }

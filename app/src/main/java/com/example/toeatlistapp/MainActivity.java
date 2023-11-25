@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     Button addRestaurantButton;
-    Button randomRestaurantsButton;
+    Button randomRestaurantButton;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
@@ -124,6 +124,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        randomRestaurantButton = findViewById(R.id.random_restaurants_button);
+        randomRestaurantButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RandomRestaurantActivity.class);
+                startActivity(intent);
+            }
+        });
+
         favoriteAdapter = new RestaurantAdapter(this, favoriteRestaurants, false);
         favoriteRestaurantListView.setAdapter(favoriteAdapter);
 
@@ -131,15 +140,6 @@ public class MainActivity extends AppCompatActivity {
         restaurantListView.setAdapter(adapter);
 
         refreshData();
-
-        randomRestaurantsButton = findViewById(R.id.random_restaurants_button);
-        randomRestaurantsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, com.example.toeatlistapp.RandomRestaurantActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public void onFavoriteRemoved() {

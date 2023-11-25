@@ -34,6 +34,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".RandomRestaurantActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".RestaurantDetailsActivity"
             android:exported="false" />
 
