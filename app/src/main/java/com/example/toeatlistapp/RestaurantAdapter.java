@@ -116,12 +116,12 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
                         } else if (id == R.id.add_to_favourite) {
                             database.setFavourite(restaurant.getId(), true);
                             setData(database.getAllRestaurants());
-                            updatePopupMenu(restaurant, currentPopup); // add this line
+                            updatePopupMenu(restaurant, currentPopup);
                             return true;
                         } else if (id == R.id.remove_from_favourite) {
                             database.setFavourite(restaurant.getId(), false);
                             setData(database.getAllRestaurants());
-                            updatePopupMenu(restaurant, currentPopup); // add this line
+                            updatePopupMenu(restaurant, currentPopup);
                             return true;
                         }
                         return false;

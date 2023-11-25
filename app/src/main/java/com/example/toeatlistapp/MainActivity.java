@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == navigationView.getMenu().findItem(R.id.nav_view_restaurants).getItemId()) {
                     Intent intent = new Intent(MainActivity.this, ViewRestaurantsActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
 
-                // Add this line to uncheck the item after it's clicked
                 item.setChecked(false);
 
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
