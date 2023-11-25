@@ -8,7 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     Button addRestaurantButton;
+    Button randomRestaurantsButton;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
@@ -54,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+            showMainMenu();
+        return true;
+    }
+
+    private void showMainMenu() {
         setContentView(R.layout.activity_main);
 
         addRestaurantButton = findViewById(R.id.addRestaurantButton);
@@ -92,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         addRestaurantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,15 +115,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button viewRestaurantsButton = findViewById(R.id.view_restaurants_button);
+        viewRestaurantsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ViewRestaurantsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         favoriteAdapter = new RestaurantAdapter(this, favoriteRestaurants, false);
         favoriteRestaurantListView.setAdapter(favoriteAdapter);
 
         adapter = new RestaurantAdapter(this, restaurants, false);
         restaurantListView.setAdapter(adapter);
 
-
-
         refreshData();
+
+        randomRestaurantsButton = findViewById(R.id.random_restaurants_button);
+        randomRestaurantsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, com.example.toeatlistapp.RandomRestaurantActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void onFavoriteRemoved() {

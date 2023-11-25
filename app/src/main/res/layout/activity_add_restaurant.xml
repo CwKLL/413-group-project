@@ -51,7 +51,8 @@
                 android:id="@+id/telephone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="8" />
 
             <TextView
                 android:id="@+id/tvDistrict"
