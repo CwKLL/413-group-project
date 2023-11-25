@@ -12,6 +12,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.content.IntentFilter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +31,25 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
     private DatabaseHelper database;
     private PopupMenu currentPopup;
 
-    public RestaurantAdapter(Context context, List<Restaurant> data) {
+    private boolean isButtonVisible;
+
+    public RestaurantAdapter(Context context, List<Restaurant> data, boolean isButtonVisible) {
         this.originalData = data;
         this.filteredData = data;
         this.context = context;
         this.database = new DatabaseHelper(context);
+        this.isButtonVisible = isButtonVisible;
         layoutInflater = LayoutInflater.from(context);
+    }
+
+    private void sendFavoriteRemovedBroadcast() {
+        Intent intent = new Intent("favorite-removed");
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
+    private void sendFavoriteAddedBroadcast() {
+        Intent intent = new Intent("favorite-added");
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     public void setData(List<Restaurant> data) {
@@ -84,6 +99,12 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
         }
 
+        if (isButtonVisible) {
+            holder.optionsButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.optionsButton.setVisibility(View.GONE);
+        }
+
         holder.name.setText(restaurant.getName());
         holder.description.setText(restaurant.getDescription());
         holder.telephone.setText(restaurant.getTelephone());
@@ -117,11 +138,13 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
                             database.setFavourite(restaurant.getId(), true);
                             setData(database.getAllRestaurants());
                             updatePopupMenu(restaurant, currentPopup);
+                            sendFavoriteAddedBroadcast();
                             return true;
                         } else if (id == R.id.remove_from_favourite) {
                             database.setFavourite(restaurant.getId(), false);
                             setData(database.getAllRestaurants());
                             updatePopupMenu(restaurant, currentPopup);
+                            sendFavoriteRemovedBroadcast();
                             return true;
                         }
                         return false;
@@ -186,6 +209,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
 
             return results;
         }
+
 
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredData = (ArrayList<Restaurant>) results.values;

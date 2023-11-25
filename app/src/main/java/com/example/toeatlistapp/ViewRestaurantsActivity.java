@@ -38,11 +38,11 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         favButton = findViewById(R.id.favButton);
 
-        adapter = new RestaurantAdapter(
-                this,
-                new ArrayList<>()
-        );
+        if (restaurants == null) {
+            restaurants = new ArrayList<>();
+        }
 
+        adapter = new RestaurantAdapter(this, restaurants, true);
         restaurantsListView.setAdapter(adapter);
 
         refreshRestaurantList();
@@ -57,7 +57,6 @@ public class ViewRestaurantsActivity extends AppCompatActivity {
             }
         });
 
-        // Updated
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
