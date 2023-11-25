@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.splash);
     }
 
@@ -68,13 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showMainMenu() {
+        getSupportActionBar().show();
         setContentView(R.layout.activity_main);
 
         addRestaurantButton = findViewById(R.id.addRestaurantButton);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         favoriteRestaurantListView = findViewById(R.id.favoriteRestaurantListView);
-        restaurantListView = findViewById(R.id.restaurantListView);
+//        restaurantListView = findViewById(R.id.restaurantListView);
 
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -136,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
         favoriteAdapter = new RestaurantAdapter(this, favoriteRestaurants, false);
         favoriteRestaurantListView.setAdapter(favoriteAdapter);
 
-        adapter = new RestaurantAdapter(this, restaurants, false);
-        restaurantListView.setAdapter(adapter);
+//        adapter = new RestaurantAdapter(this, restaurants, false);
+//        restaurantListView.setAdapter(adapter);
 
         refreshData();
     }
@@ -196,11 +198,12 @@ public class MainActivity extends AppCompatActivity {
             TextView favoriteSuggestionTextView = findViewById(R.id.favoriteSuggestionTextView);
 
             if(!pair.first.isEmpty()) {
-                Restaurant favRestaurant = pair.first.get(new Random().nextInt(pair.first.size()));
-                favoriteRestaurants.add(favRestaurant);
-                favoriteSuggestionTextView.setText("Want to go your favorite restaurant again?");
+//                Restaurant favRestaurant = pair.first.get(new Random().nextInt(pair.first.size()));
+//                favoriteRestaurants.add(favRestaurant);
+                favoriteRestaurants.addAll(pair.first);
+                favoriteSuggestionTextView.setText("Want to revisit your favourite restaurant?");
             } else {
-                favoriteSuggestionTextView.setText("You have no favorite restaurant right, lets add some");
+                favoriteSuggestionTextView.setText("Your favourite list is looking a bit bland, \n let's add some flavor! ");
             }
 
             if(!pair.second.isEmpty()) {
@@ -209,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             favoriteAdapter.notifyDataSetChanged();
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
         }
     }
 }

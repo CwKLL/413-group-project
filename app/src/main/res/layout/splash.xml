@@ -36,7 +36,7 @@
         android:layout_weight="3"
         android:contentDescription="@string/app_name"
         android:gravity="center_vertical"
-        android:src="@drawable/baseline_food_bank_24" />
+        android:src="@drawable/baseline_food_bank_white" />
 
     <TextView
         android:layout_width="match_parent"

@@ -62,7 +62,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
                         R.array.food_type_array, android.R.layout.simple_spinner_item);
                 foodTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 foodTypeSpinner.setAdapter(foodTypeAdapter);
-                districtSpinner.setSelection(adapter.getPosition(currentRestaurant.getFoodType()));
+                foodTypeSpinner.setSelection(foodTypeAdapter.getPosition(currentRestaurant.getFoodType()));
 
             } else {
                 Toast.makeText(this, "Restaurant not found", Toast.LENGTH_SHORT).show();
