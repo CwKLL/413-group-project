@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:theme="@style/AppTheme"
         android:elevation="4dp" />
 
     <SearchView
@@ -28,6 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Favourites"
+        style="@style/AppCompatButton"
+        android:textAllCaps="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

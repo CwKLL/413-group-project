@@ -4,4 +4,6 @@
     <string name="save">Save</string>
     <string name="show_favorites">Show Favorites</string>
     <string name="show_all">Show All</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
