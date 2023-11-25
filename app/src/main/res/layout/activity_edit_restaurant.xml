@@ -26,12 +26,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvRestaurantName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Restaurant Name"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/nameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Restaurant Name"
                 android:inputType="text" />
+
+            <TextView
+                android:id="@+id/tvTelephone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Telephone"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_below="@id/restaurant_name"
+                android:layout_marginTop="16dp" />
 
             <EditText
                 android:id="@+id/telephoneField"
@@ -40,11 +58,31 @@
                 android:hint="Telephone"
                 android:inputType="phone" />
 
+            <TextView
+                android:id="@+id/tvDistrict"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="District"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_below="@id/telephone"
+                android:layout_marginTop="16dp" />
+
             <Spinner
                 android:id="@+id/districtSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/districts_array" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_below="@id/district"
+                android:layout_marginTop="16dp" />
 
             <EditText
                 android:id="@+id/descriptionField"
@@ -53,12 +91,20 @@
                 android:hint="Description"
                 android:inputType="textMultiLine" />
 
-            <EditText
-                android:id="@+id/foodTypeField"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvFoodType"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Food Type"
-                android:inputType="text" />
+                android:text="Food Type"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_below="@id/description"
+                android:layout_marginTop="16dp" />
+
+            <Spinner
+                android:id="@+id/foodTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/saveButton"

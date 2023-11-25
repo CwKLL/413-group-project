@@ -17,8 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class EditRestaurantActivity extends AppCompatActivity {
 
-    private EditText nameField, telephoneField, descriptionField, foodTypeField;
-    private Spinner districtSpinner;
+    private EditText nameField, telephoneField, descriptionField;
+    private Spinner districtSpinner, foodTypeSpinner;
     private Button saveButton, deleteButton;
 
     private Restaurant currentRestaurant;
@@ -39,7 +39,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
         telephoneField = findViewById(R.id.telephoneField);
         districtSpinner = findViewById(R.id.districtSpinner);
         descriptionField = findViewById(R.id.descriptionField);
-        foodTypeField = findViewById(R.id.foodTypeField);
+        foodTypeSpinner = findViewById(R.id.foodTypeSpinner);
         saveButton = findViewById(R.id.saveButton);
         deleteButton = findViewById(R.id.deleteButton);
 
@@ -51,13 +51,19 @@ public class EditRestaurantActivity extends AppCompatActivity {
                 nameField.setText(currentRestaurant.getName());
                 telephoneField.setText(currentRestaurant.getTelephone());
                 descriptionField.setText(currentRestaurant.getDescription());
-                foodTypeField.setText(currentRestaurant.getFoodType());
 
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                         R.array.districts_array, android.R.layout.simple_spinner_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 districtSpinner.setAdapter(adapter);
                 districtSpinner.setSelection(adapter.getPosition(currentRestaurant.getDistrict()));
+
+                ArrayAdapter<CharSequence> foodTypeAdapter = ArrayAdapter.createFromResource(this,
+                        R.array.food_type_array, android.R.layout.simple_spinner_item);
+                foodTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                foodTypeSpinner.setAdapter(foodTypeAdapter);
+                districtSpinner.setSelection(adapter.getPosition(currentRestaurant.getFoodType()));
+
             } else {
                 Toast.makeText(this, "Restaurant not found", Toast.LENGTH_SHORT).show();
                 finish();
@@ -76,7 +82,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
                 String telephone = telephoneField.getText().toString();
                 String district = districtSpinner.getSelectedItem().toString();
                 String description = descriptionField.getText().toString();
-                String foodType = foodTypeField.getText().toString();
+                String foodType = foodTypeSpinner.getSelectedItem().toString();
 
                 if (name.isEmpty() || telephone.isEmpty() || district.isEmpty() || description.isEmpty() || foodType.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
