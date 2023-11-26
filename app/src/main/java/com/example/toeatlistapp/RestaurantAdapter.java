@@ -93,7 +93,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
 
         final Restaurant restaurant = filteredData.get(position);
 
-        if (restaurant.isFavourite()) {
+        if (restaurant.getFavourite()) {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.light_gray));
         } else {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
@@ -120,7 +120,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
                 updatePopupMenu(restaurant, currentPopup);
 
                 MenuItem removeFromFavouriteItem = currentPopup.getMenu().findItem(R.id.remove_from_favourite);
-                if (restaurant.isFavourite()) {
+                if (restaurant.getFavourite()) {
                     removeFromFavouriteItem.setVisible(true);
                 } else {
                     removeFromFavouriteItem.setVisible(false);
@@ -132,6 +132,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
                         if (id == R.id.edit) {
                             Intent intent = new Intent(context, EditRestaurantActivity.class);
                             intent.putExtra("RESTAURANT_ID", restaurant.getId());
+                            intent.putExtra("IS_FAVOURITE", restaurant.getFavourite());
                             context.startActivity(intent);
                             return true;
                         } else if (id == R.id.add_to_favourite) {
@@ -162,7 +163,7 @@ public class RestaurantAdapter extends BaseAdapter implements Filterable {
         MenuItem removeFromFavouriteItem = currentPopup.getMenu().findItem(R.id.remove_from_favourite);
         MenuItem addToFavouriteItem = currentPopup.getMenu().findItem(R.id.add_to_favourite);
 
-        if (restaurant.isFavourite()) {
+        if (restaurant.getFavourite()) {
             removeFromFavouriteItem.setVisible(true);
             addToFavouriteItem.setVisible(false);
         } else {

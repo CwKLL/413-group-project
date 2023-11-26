@@ -125,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_DISTRICT, restaurant.getDistrict());
         values.put(KEY_DESCRIPTION, restaurant.getDescription());
         values.put(KEY_FOOD_TYPE, restaurant.getFoodType());
-        values.put(KEY_FAVOURITE, restaurant.isFavourite() ? 1 : 0);
+        values.put(KEY_FAVOURITE, restaurant.getFavourite() ? 1 : 0);
 
         return db.update(TABLE_NAME, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(restaurant.getId())});

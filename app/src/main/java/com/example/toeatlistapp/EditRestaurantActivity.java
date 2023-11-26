@@ -86,6 +86,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
                 String district = districtSpinner.getSelectedItem().toString();
                 String description = descriptionField.getText().toString();
                 String foodType = foodTypeSpinner.getSelectedItem().toString();
+                boolean getFavourite = getIntent().getBooleanExtra("IS_FAVOURITE", false);
 
                 if (name.isEmpty() || telephone.isEmpty() || district.isEmpty() || description.isEmpty() || foodType.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -97,6 +98,13 @@ public class EditRestaurantActivity extends AppCompatActivity {
                     currentRestaurant.setDistrict(district);
                     currentRestaurant.setDescription(description);
                     currentRestaurant.setFoodType(foodType);
+                    currentRestaurant.setFavourite(getFavourite);
+
+                    if(getFavourite) {
+                        db.setFavourite(currentRestaurant.getId(), true);
+                    } else {
+                        db.setFavourite(currentRestaurant.getId(), false);
+                    }
 
                     db.updateRestaurant(currentRestaurant);
 

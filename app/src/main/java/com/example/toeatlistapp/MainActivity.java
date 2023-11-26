@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             List<Restaurant> otherRestaurants = new ArrayList<>();
 
             for (Restaurant restaurant : allRestaurants) {
-                if (restaurant.isFavourite()) {
+                if (restaurant.getFavourite()) {
                     favoriteRestaurants.add(restaurant);
                 } else {
                     otherRestaurants.add(restaurant);
