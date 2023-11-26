@@ -21,19 +21,23 @@
         <item>Yuen Long</item>
     </string-array>
     <string-array name="food_type_array">
-        <item>French food</item>
         <item>Chinese food</item>
-        <item>Japanese food</item>
-        <item>Italian food</item>
-        <item>Spanish food</item>
-        <item>Thai food</item>
-        <item>Indian food</item>
-        <item>Mexican food</item>
-        <item>American food</item>
-        <item>Vietnamese food</item>
-        <item>Korean food</item>
+        <item>French food</item>
         <item>German food</item>
-        <item>Turkish food</item>
+        <item>Hong Kong food</item>
+        <item>Indian food</item>
+        <item>Italian food</item>
+        <item>Japanese food</item>
+        <item>Korean food</item>
         <item>Malaysian food</item>
+        <item>Middle Eastern food</item>
+        <item>Mexican food</item>
+        <item>Spanish food</item>
+        <item>Taiwanese food</item>
+        <item>Thai food</item>
+        <item>Turkish food</item>
+        <item>Vietnamese food</item>
+        <item>Western food</item>
+        <item>Other</item>
     </string-array>
 </resources>

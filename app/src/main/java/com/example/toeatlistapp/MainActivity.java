@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        View rootView = findViewById(android.R.id.content);
+        rootView.startAnimation(fadeIn);
+
         if (event.getAction() == MotionEvent.ACTION_DOWN)
             showMainMenu();
         return true;
@@ -95,8 +101,20 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == navigationView.getMenu().findItem(R.id.nav_add_restaurant).getItemId()) {
+                    Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+
                 if (item.getItemId() == navigationView.getMenu().findItem(R.id.nav_view_restaurants).getItemId()) {
                     Intent intent = new Intent(MainActivity.this, ViewRestaurantsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+
+                if (item.getItemId() == navigationView.getMenu().findItem(R.id.about_us).getItemId()) {
+                    Intent intent = new Intent(MainActivity.this, AboutUsActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
@@ -123,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ViewRestaurantsActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -132,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RandomRestaurantActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

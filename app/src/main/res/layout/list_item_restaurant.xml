@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Restaurant Name"
+            android:textColor="#483D8B"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -22,35 +23,43 @@
             android:id="@+id/restaurantDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Restaurant Description" />
+            android:text="Restaurant Description"
+            android:textColor="#333" />
 
         <TextView
             android:id="@+id/restaurantTelephone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Restaurant Telephone" />
+            android:text="Restaurant Telephone"
+            android:textColor="#333" />
 
         <TextView
             android:id="@+id/restaurantDistrict"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Restaurant District" />
+            android:text="Restaurant District"
+            android:textColor="#333" />
 
         <TextView
             android:id="@+id/restaurantFoodType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Restaurant Food Type" />
+            android:text="Restaurant Food Type"
+            android:textColor="#333" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/optionsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:textAllCaps="false"
-        android:text="Options" />
+        android:text="Options"
+        android:textColor="#FFF"
+        android:background="@drawable/rounded_corner"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_gravity="center" />
 
 </RelativeLayout>

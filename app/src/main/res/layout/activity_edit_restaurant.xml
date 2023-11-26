@@ -28,20 +28,35 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Restaurant"
+                android:textColor="#483D8B"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <TextView
                 android:id="@+id/tvRestaurantName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Restaurant Name"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="20dp" />
 
             <EditText
                 android:id="@+id/nameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Restaurant Name"
-                style="@style/AppCompatEditText"
-                android:inputType="text" />
+                android:inputType="text"
+                android:background="@drawable/edittext_bg"
+                android:drawableStart="@drawable/baseline_food_bank_24"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/tvTelephone"
@@ -51,14 +66,20 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_below="@id/restaurant_name"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="20dp" />
 
             <EditText
                 android:id="@+id/telephoneField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Telephone"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="8"
+                android:background="@drawable/edittext_bg"
+                android:drawableStart="@drawable/baseline_local_phone_24"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/tvDistrict"
@@ -68,13 +89,17 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_below="@id/telephone"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="20dp" />
 
             <Spinner
                 android:id="@+id/districtSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/districts_array" />
+                android:layout_height="match_parent"
+                android:entries="@array/districts_array"
+                android:minHeight="40dp"
+                android:background="@drawable/spinner_bg"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvDescription"
@@ -84,14 +109,19 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_below="@id/district"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="20dp" />
 
             <EditText
                 android:id="@+id/descriptionField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Description"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:background="@drawable/edittext_bg"
+                android:drawableStart="@drawable/baseline_assignment_24"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/tvFoodType"
@@ -101,27 +131,43 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_below="@id/description"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="20dp" />
 
             <Spinner
                 android:id="@+id/foodTypeSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:minHeight="40dp"
+                android:background="@drawable/spinner_bg"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="Save" />
+                android:layout_gravity="center|bottom"
+                android:text="Save"
+                android:textColor="#FFF"
+                android:drawableStart="@drawable/baseline_file_download_done_24"
+                android:background="@drawable/rounded_corner"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" />
 
             <Button
                 android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="center|bottom"
                 style="@style/AppCompatButton"
-                android:text="Delete" />
+                android:text="Delete"
+                android:textColor="#FFF"
+                android:drawableStart="@drawable/baseline_delete_24"
+                android:background="@drawable/rounded_corner"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" />
 
         </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.toeatlistapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +21,11 @@ public class EditRestaurantActivity extends AppCompatActivity {
     private EditText nameField, telephoneField, descriptionField;
     private Spinner districtSpinner, foodTypeSpinner;
     private Button saveButton, deleteButton;
-
+    private Button favButton;
     private Restaurant currentRestaurant;
     private DatabaseHelper db;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
         foodTypeSpinner = findViewById(R.id.foodTypeSpinner);
         saveButton = findViewById(R.id.saveButton);
         deleteButton = findViewById(R.id.deleteButton);
+        favButton = findViewById(R.id.favButton);
 
         int restaurantId = getIntent().getIntExtra("RESTAURANT_ID", -1);
 
@@ -97,9 +100,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
 
                     db.updateRestaurant(currentRestaurant);
 
-                    Intent intent = new Intent(EditRestaurantActivity.this, ViewRestaurantsActivity.class);
-                    startActivity(intent);
-                    finish();
+                    onBackPressed();
                 }
             }
         });
@@ -124,6 +125,16 @@ public class EditRestaurantActivity extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    private void addToFavorites(Restaurant restaurant) {
+        restaurant.setFavourite(true);
+        db.updateRestaurant(restaurant);
+    }
+
+    private void removeFromFavorites(Restaurant restaurant) {
+        restaurant.setFavourite(false);
+        db.updateRestaurant(restaurant);
     }
 
     public void onBackPressed() {

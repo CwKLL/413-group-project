@@ -23,15 +23,27 @@
         android:id="@+id/restaurant_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchView" />
+        android:layout_below="@id/searchView"
+        android:layout_above="@+id/space"
+        android:layout_marginBottom="20dp" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:id="@+id/favButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Show Favourites"
-        style="@style/AppCompatButton"
-        android:textAllCaps="false"
+        android:textColor="#FFF"
+        android:drawableStart="@drawable/baseline_stars_24"
+        android:background="@drawable/rounded_corner"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
