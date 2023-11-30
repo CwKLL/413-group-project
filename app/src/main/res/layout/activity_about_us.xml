@@ -28,13 +28,13 @@
 
         <TextView
             android:id="@+id/titleTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TO-EAT LIST"
+            android:text="About Us"
             android:textColor="#483D8B"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold"
-            android:layout_marginBottom="15dp"
+            android:textAlignment="center"
             android:gravity="center" />
 
         <TextView
@@ -45,6 +45,7 @@
             android:textSize="16sp"
             android:textColor="#333"
             android:justificationMode="inter_word"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp" />
 
     </LinearLayout>
